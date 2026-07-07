@@ -8,7 +8,7 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'priznanie-2026';
 
 const CAMPAIGNS_FILE = path.join(__dirname, 'data', 'campaigns.json');
 const CANDIDATES_FILE = path.join(__dirname, 'data', 'candidates.json');
-const PROJECT_ROOT = __dirname.endsWith(path.join('server')) ? path.join(__dirname, '..') : __dirname;
+const PROJECT_ROOT = path.join(__dirname, '..');
 
 function loadJson(file) {
   try {

@@ -1,0 +1,4 @@
+server/node_modules/
+server/.env
+server/data/campaigns.json
+server/data/candidates.json

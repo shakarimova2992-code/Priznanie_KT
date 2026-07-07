@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Признание — наградная кампания Казахтелеком</title>
+<style>
+  :root{
+    --c-primary:#00549E;
+    --c-primary-dark:#003C71;
+    --c-accent:#00AEEF;
+    --c-bg:#EFF5FB;
+    --c-card:#FFFFFF;
+    --c-text:#152233;
+    --c-text-muted:#5A6B7D;
+    --c-border:#D6E4F0;
+    --c-success:#1FA971;
+    --c-success-bg:#E7F7EF;
+    --c-danger:#E1483D;
+    --c-danger-bg:#FDEBEA;
+    --c-warning:#B9740B;
+    --c-warning-bg:#FDF3DF;
+    --radius:14px;
+    --radius-sm:8px;
+    --shadow:0 4px 18px rgba(11,60,113,.08);
+    --shadow-lg:0 12px 40px rgba(11,60,113,.18);
+    --font: 'Helvetica Neue', Arial, 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{font-family:var(--font);background:var(--c-bg);color:var(--c-text);line-height:1.5;-webkit-font-smoothing:antialiased;}
+  a{color:var(--c-primary);}
+  button{font-family:inherit;cursor:pointer;}
+  #app{min-height:100vh;display:flex;flex-direction:column;}
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible, [tabindex]:focus-visible{
+    outline:3px solid var(--c-accent); outline-offset:2px;
+  }
+
+  header.site-header{position:sticky;top:0;z-index:40;background:linear-gradient(90deg,var(--c-primary-dark),var(--c-primary));color:#fff;box-shadow:var(--shadow);}
+  .header-inner{max-width:1180px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+  .brand{display:flex;align-items:center;gap:12px;cursor:pointer;}
+  .brand-badge{width:42px;height:42px;flex-shrink:0;border-radius:12px;background:rgba(255,255,255,.16);display:flex;align-items:center;justify-content:center;font-size:22px;}
+  .brand-text h1{margin:0;font-size:18px;font-weight:700;}
+  .brand-text p{margin:0;font-size:12px;opacity:.85;}
+  .nav-actions{margin-left:auto;display:flex;gap:10px;flex-wrap:wrap;}
+  .nav-btn{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.3);color:#fff;padding:8px 14px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;}
+  .nav-btn:hover{background:rgba(255,255,255,.24);}
+  .nav-btn.active{background:#fff;color:var(--c-primary-dark);}
+
+  main{flex:1;max-width:1180px;margin:0 auto;padding:28px 20px 60px;width:100%;}
+  .card{background:var(--c-card);border:1px solid var(--c-border);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px;}
+  .card + .card{margin-top:18px;}
+  h2{margin:0 0 6px;font-size:22px;}
+  h3{margin:0 0 10px;font-size:16px;}
+  .muted{color:var(--c-text-muted);font-size:13px;}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media (max-width:720px){.grid-2{grid-template-columns:1fr;}}
+
+  label{display:block;font-size:13px;font-weight:600;margin:0 0 6px;}
+  input,textarea,select{width:100%;padding:10px 12px;border:1px solid var(--c-border);border-radius:var(--radius-sm);font-family:inherit;font-size:14px;background:#fff;color:var(--c-text);}
+  textarea{min-height:80px;resize:vertical;}
+  .field{margin-bottom:14px;}
+  .hint{font-size:12px;color:var(--c-text-muted);margin-top:4px;}
+  .error-text{font-size:12px;color:var(--c-danger);margin-top:4px;}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 20px;border-radius:var(--radius-sm);font-size:14px;font-weight:700;border:none;}
+  .btn-primary{background:var(--c-primary);color:#fff;}
+  .btn-primary:hover{background:var(--c-primary-dark);}
+  .btn-secondary{background:#fff;color:var(--c-primary);border:1px solid var(--c-border);}
+  .btn-secondary:hover{background:var(--c-bg);}
+  .btn-danger{background:var(--c-danger-bg);color:var(--c-danger);border:1px solid #f3c9c5;}
+  .btn-sm{padding:7px 12px;font-size:12.5px;}
+  .btn[disabled]{opacity:.5;cursor:not-allowed;}
+
+  .role-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:20px;}
+  @media (max-width:720px){.role-grid{grid-template-columns:1fr;}}
+  .role-card{background:var(--c-card);border:1px solid var(--c-border);border-radius:var(--radius);box-shadow:var(--shadow);padding:26px;text-align:left;cursor:pointer;transition:transform .15s,box-shadow .15s;}
+  .role-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+  .role-icon{font-size:30px;margin-bottom:10px;}
+  .role-card h3{font-size:18px;}
+
+  .badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:11.5px;font-weight:700;}
+  .badge-open{background:var(--c-success-bg);color:var(--c-success);}
+  .badge-closed{background:var(--c-danger-bg);color:var(--c-danger);}
+
+  .campaign-list{display:grid;gap:14px;margin-top:16px;}
+  .campaign-item{border:1px solid var(--c-border);border-radius:var(--radius);padding:18px;background:#fff;display:flex;justify-content:space-between;gap:16px;align-items:flex-start;flex-wrap:wrap;}
+  .campaign-item .meta{font-size:13px;color:var(--c-text-muted);margin-top:6px;}
+  .criteria-box{background:var(--c-bg);border:1px solid var(--c-border);border-radius:var(--radius-sm);padding:14px;font-size:13.5px;white-space:pre-wrap;margin-top:10px;}
+
+  .candidate-block{border:1px dashed var(--c-border);border-radius:var(--radius-sm);padding:16px;margin-bottom:14px;position:relative;}
+  .candidate-block h4{margin:0 0 12px;font-size:14px;color:var(--c-primary-dark);}
+  .remove-candidate{position:absolute;top:10px;right:10px;}
+
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--c-border);vertical-align:top;}
+  th{color:var(--c-text-muted);font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.02em;}
+  tr:hover td{background:var(--c-bg);}
+  .table-wrap{overflow-x:auto;}
+
+  .tabs{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;}
+  .tab-btn{background:#fff;border:1px solid var(--c-border);padding:9px 16px;border-radius:999px;font-size:13.5px;font-weight:600;color:var(--c-text-muted);}
+  .tab-btn.active{background:var(--c-primary);color:#fff;border-color:var(--c-primary);}
+
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--c-primary-dark);color:#fff;padding:12px 20px;border-radius:var(--radius-sm);box-shadow:var(--shadow-lg);font-size:14px;z-index:100;max-width:90vw;}
+  .toast.error{background:var(--c-danger);}
+  .toast.success{background:var(--c-success);}
+
+  .modal-overlay{position:fixed;inset:0;background:rgba(11,30,55,.5);display:flex;align-items:center;justify-content:center;z-index:90;padding:20px;}
+  .modal{background:#fff;border-radius:var(--radius);max-width:560px;width:100%;max-height:90vh;overflow-y:auto;padding:24px;box-shadow:var(--shadow-lg);}
+  .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+  .modal-close{background:none;border:none;font-size:20px;color:var(--c-text-muted);}
+
+  .quota-summary{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-top:14px;}
+  .quota-pill{background:var(--c-bg);border:1px solid var(--c-border);border-radius:var(--radius-sm);padding:10px 12px;font-size:12.5px;}
+  .quota-pill b{display:block;font-size:15px;color:var(--c-primary-dark);}
+
+  .login-box{max-width:380px;margin:60px auto;}
+  footer.site-footer{text-align:center;padding:22px;color:var(--c-text-muted);font-size:12px;}
+  .empty-state{text-align:center;padding:40px 20px;color:var(--c-text-muted);}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+(function(){
+  const API = '';
+
+  let state = {
+    view: 'home',
+    profile: JSON.parse(localStorage.getItem('award_profile') || 'null'),
+    campaigns: [],
+    campaignsLoaded: false,
+    activeCampaignId: null,
+    quotaInfo: null,
+    candidatesDraft: [blankCandidate()],
+    submitError: '',
+    submitting: false,
+    lastSubmitted: null,
+
+    adminAuthed: sessionStorage.getItem('award_admin_authed') === '1',
+    adminPasswordInput: '',
+    adminLoginError: '',
+    adminView: 'campaigns',
+    adminCampaigns: [],
+    adminSelectedCampaignId: null,
+    adminCandidates: [],
+    adminCandidateFilter: '',
+    showCampaignModal: false,
+    campaignModalMode: 'create',
+    campaignForm: blankCampaignForm(),
+    campaignFormError: '',
+
+    toast: null
+  };
+
+  function blankCandidate(){
+    return { fullName:'', position:'', region:'', tenure:'', hadPreviousAward:'no', previousAwardTitle:'', justification:'' };
+  }
+  function blankCampaignForm(){
+    return { id:null, title:'', occasion:'', criteria:'', quotaPerUnit:'', deadline:'' };
+  }
+
+  function showToast(message, type){
+    state.toast = { message, type: type || 'success' };
+    render();
+    setTimeout(function(){ state.toast = null; render(); }, 3200);
+  }
+
+  async function api(path, opts){
+    opts = opts || {};
+    const res = await fetch(API + path, {
+      method: opts.method || 'GET',
+      headers: opts.body ? { 'Content-Type': 'application/json' } : undefined,
+      body: opts.body ? JSON.stringify(opts.body) : undefined
+    });
+    let data = null;
+    try { data = await res.json(); } catch(e) {}
+    if (!res.ok) {
+      throw new Error((data && data.error) || 'Ошибка запроса');
+    }
+    return data;
+  }
+
+  function fmtDate(iso){
+    try { return new Date(iso).toLocaleDateString('ru-RU'); } catch(e){ return iso; }
+  }
+  function isExpired(deadline){
+    const d = new Date(deadline + 'T23:59:59');
+    return d.getTime() < Date.now();
+  }
+
+  // ---------------- data loading ----------------
+  async function loadCampaigns(){
+    state.campaigns = await api('/api/campaigns');
+    state.campaignsLoaded = true;
+    render();
+  }
+
+  async function loadQuota(campaignId){
+    if (!state.profile || !state.profile.unit) { state.quotaInfo = null; return; }
+    try {
+      const q = await api('/api/campaigns/' + campaignId + '/quota?unit=' + encodeURIComponent(state.profile.unit));
+      state.quotaInfo = q;
+    } catch(e) { state.quotaInfo = null; }
+    render();
+  }
+
+  async function loadAdminCandidates(campaignId){
+    state.adminCandidates = await api('/api/campaigns/' + campaignId + '/candidates');
+    render();
+  }
+
+  // ---------------- navigation ----------------
+  function goHome(){ state.view = 'home'; render(); }
+  function goSubmitList(){
+    state.view = 'submit-list';
+    render();
+    if (!state.campaignsLoaded) loadCampaigns();
+  }
+  function goAdmin(){
+    state.view = 'admin';
+    render();
+    if (state.adminAuthed) {
+      loadCampaigns().then(function(){
+        state.adminCampaigns = state.campaigns;
+        render();
+      });
+    }
+  }
+
+  function openCampaignForm(campaign){
+    state.view = 'submit-form';
+    state.activeCampaignId = campaign.id;
+    state.candidatesDraft = [blankCandidate()];
+    state.submitError = '';
+    state.lastSubmitted = null;
+    render();
+    loadQuota(campaign.id);
+  }
+
+  function backToList(){
+    state.view = 'submit-list';
+    state.quotaInfo = null;
+    render();
+  }
+
+  // ---------------- profile ----------------
+  function saveProfileFromForm(){
+    const name = document.getElementById('p-name').value.trim();
+    const position = document.getElementById('p-position').value.trim();
+    const unit = document.getElementById('p-unit').value.trim();
+    const region = document.getElementById('p-region').value.trim();
+    const phone = document.getElementById('p-phone').value.trim();
+    if (!name || !unit) {
+      showToast('Заполните ФИО и структурное звено (СЗ)', 'error');
+      return;
+    }
+    state.profile = { name, position, unit, region, phone };
+    localStorage.setItem('award_profile', JSON.stringify(state.profile));
+    render();
+    if (state.activeCampaignId) loadQuota(state.activeCampaignId);
+  }
+
+  function editProfile(){
+    state.profile = null;
+    render();
+  }
+
+  // ---------------- candidate draft editing ----------------
+  function syncDraftsFromDom(){
+    document.querySelectorAll('[data-cand-idx]').forEach(function(el){
+      const idx = Number(el.dataset.candIdx);
+      const field = el.dataset.field;
+      if (state.candidatesDraft[idx]) state.candidatesDraft[idx][field] = el.value;
+    });
+  }
+  function updateDraftField(idx, field, value){
+    syncDraftsFromDom();
+    state.candidatesDraft[idx][field] = value;
+    render();
+  }
+  function addCandidateRow(){
+    syncDraftsFromDom();
+    const campaign = state.campaigns.find(function(c){ return c.id === state.activeCampaignId; });
+    if (campaign && campaign.quotaPerUnit > 0 && state.quotaInfo && state.quotaInfo.remaining != null) {
+      if (state.candidatesDraft.length >= state.quotaInfo.remaining) {
+        showToast('Достигнут лимит квоты для вашего СЗ', 'error');
+        return;
+      }
+    }
+    state.candidatesDraft.push(blankCandidate());
+    render();
+  }
+  function removeCandidateRow(idx){
+    syncDraftsFromDom();
+    if (state.candidatesDraft.length === 1) return;
+    state.candidatesDraft.splice(idx, 1);
+    render();
+  }
+
+  async function submitCandidates(){
+    // sync inputs into state before validating (inputs are uncontrolled for perf)
+    syncDraftsFromDom();
+
+    state.submitError = '';
+    for (const c of state.candidatesDraft) {
+      if (!c.fullName.trim() || !c.position.trim() || !c.region.trim() || !c.justification.trim()) {
+        state.submitError = 'Заполните ФИО, должность, регион и обоснование для каждого кандидата';
+        render();
+        return;
+      }
+      if (c.hadPreviousAward === 'yes' && !c.previousAwardTitle.trim()) {
+        state.submitError = 'Укажите название предыдущей награды для кандидата "' + c.fullName + '"';
+        render();
+        return;
+      }
+    }
+    state.submitting = true;
+    render();
+    try {
+      const created = await api('/api/campaigns/' + state.activeCampaignId + '/candidates', {
+        method: 'POST',
+        body: { submittedBy: state.profile, candidates: state.candidatesDraft }
+      });
+      state.lastSubmitted = created;
+      state.candidatesDraft = [blankCandidate()];
+      showToast('Кандидаты успешно поданы', 'success');
+      loadQuota(state.activeCampaignId);
+    } catch(e) {
+      state.submitError = e.message;
+    }
+    state.submitting = false;
+    render();
+  }
+
+  // ---------------- admin ----------------
+  async function adminLogin(){
+    const pwd = document.getElementById('admin-pwd').value;
+    try {
+      await api('/api/admin/login', { method: 'POST', body: { password: pwd } });
+      state.adminAuthed = true;
+      sessionStorage.setItem('award_admin_authed', '1');
+      state.adminLoginError = '';
+      render();
+      const list = await api('/api/campaigns');
+      state.campaigns = list;
+      state.adminCampaigns = list;
+      render();
+    } catch(e) {
+      state.adminLoginError = e.message;
+      render();
+    }
+  }
+  function adminLogout(){
+    state.adminAuthed = false;
+    sessionStorage.removeItem('award_admin_authed');
+    render();
+  }
+
+  function openCreateCampaign(){
+    state.campaignModalMode = 'create';
+    state.campaignForm = blankCampaignForm();
+    state.campaignFormError = '';
+    state.showCampaignModal = true;
+    render();
+  }
+  function openEditCampaign(campaign){
+    state.campaignModalMode = 'edit';
+    state.campaignForm = {
+      id: campaign.id, title: campaign.title, occasion: campaign.occasion,
+      criteria: campaign.criteria, quotaPerUnit: campaign.quotaPerUnit || '', deadline: campaign.deadline
+    };
+    state.campaignFormError = '';
+    state.showCampaignModal = true;
+    render();
+  }
+  function closeCampaignModal(){
+    state.showCampaignModal = false;
+    render();
+  }
+
+  async function saveCampaignForm(){
+    const title = document.getElementById('cf-title').value.trim();
+    const occasion = document.getElementById('cf-occasion').value.trim();
+    const criteria = document.getElementById('cf-criteria').value.trim();
+    const quotaPerUnit = document.getElementById('cf-quota').value.trim();
+    const deadline = document.getElementById('cf-deadline').value;
+    if (!title || !deadline) {
+      state.campaignFormError = 'Укажите название награды и срок подачи';
+      render();
+      return;
+    }
+    try {
+      if (state.campaignModalMode === 'create') {
+        await api('/api/campaigns', { method: 'POST', body: { title, occasion, criteria, quotaPerUnit, deadline } });
+        showToast('Кампания создана', 'success');
+      } else {
+        await api('/api/campaigns/' + state.campaignForm.id, { method: 'PATCH', body: { title, occasion, criteria, quotaPerUnit, deadline } });
+        showToast('Кампания обновлена', 'success');
+      }
+      state.showCampaignModal = false;
+      const list = await api('/api/campaigns');
+      state.campaigns = list;
+      state.adminCampaigns = list;
+      render();
+    } catch(e) {
+      state.campaignFormError = e.message;
+      render();
+    }
+  }
+
+  async function toggleCampaignStatus(campaign){
+    const newStatus = campaign.status === 'open' ? 'closed' : 'open';
+    await api('/api/campaigns/' + campaign.id, { method: 'PATCH', body: { status: newStatus } });
+    const list = await api('/api/campaigns');
+    state.campaigns = list;
+    state.adminCampaigns = list;
+    showToast(newStatus === 'closed' ? 'Кампания закрыта' : 'Кампания открыта заново', 'success');
+    render();
+  }
+
+  function openAdminCandidates(campaignId){
+    state.adminView = 'candidates';
+    state.adminSelectedCampaignId = campaignId;
+    state.adminCandidateFilter = '';
+    render();
+    loadAdminCandidates(campaignId);
+  }
+
+  function exportCampaign(campaignId){
+    window.open('/api/campaigns/' + campaignId + '/export', '_blank');
+  }
+
+  // ---------------- render: shared ----------------
+  function renderHeader(){
+    return `
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="brand" onclick="AwardApp.goHome()">
+          <div class="brand-badge">🏆</div>
+          <div class="brand-text">
+            <h1>Признание</h1>
+            <p>Наградная кампания АО «Казахтелеком»</p>
+          </div>
+        </div>
+        <div class="nav-actions">
+          <button class="nav-btn ${state.view === 'submit-list' || state.view === 'submit-form' ? 'active' : ''}" onclick="AwardApp.goSubmitList()">Подать кандидатов</button>
+          <button class="nav-btn ${state.view === 'admin' ? 'active' : ''}" onclick="AwardApp.goAdmin()">Панель администратора</button>
+        </div>
+      </div>
+    </header>`;
+  }
+  function renderFooter(){
+    return `<footer class="site-footer">Признание — внутренний инструмент подачи кандидатов на корпоративные награды</footer>`;
+  }
+  function renderToast(){
+    if (!state.toast) return '';
+    return `<div class="toast ${state.toast.type}">${escapeHtml(state.toast.message)}</div>`;
+  }
+  function escapeHtml(s){
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){
+      return { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c];
+    });
+  }
+
+  // ---------------- render: home ----------------
+  function renderHome(){
+    return `
+    <div class="card" style="text-align:center;">
+      <h2>Кому вы хотите воспользоваться порталом?</h2>
+      <p class="muted">Выберите свою роль, чтобы продолжить</p>
+    </div>
+    <div class="role-grid">
+      <div class="role-card" onclick="AwardApp.goSubmitList()">
+        <div class="role-icon">📋</div>
+        <h3>Руководители</h3>
+        <p class="muted">Подать кандидатов от своего структурного звена на актуальную наградную кампанию</p>
+      </div>
+      <div class="role-card" onclick="AwardApp.goAdmin()">
+        <div class="role-icon">🗂️</div>
+        <h3>Я администратор кампании</h3>
+        <p class="muted">Создавать кампании, следить за поданными кандидатами и выгружать сводный список для комиссии</p>
+      </div>
+    </div>`;
+  }
+
+  // ---------------- render: submit list ----------------
+  function renderSubmitList(){
+    if (!state.campaignsLoaded) {
+      return `<div class="card"><p class="muted">Загрузка кампаний…</p></div>`;
+    }
+    const open = state.campaigns.filter(function(c){ return c.status === 'open' && !isExpired(c.deadline); });
+    const body = open.length === 0
+      ? `<div class="empty-state">Сейчас нет открытых наградных кампаний. Обратитесь к организатору или загляните позже.</div>`
+      : `<div class="campaign-list">` + open.map(function(c){
+          return `
+          <div class="campaign-item">
+            <div>
+              <span class="badge badge-open">Открыта</span>
+              <h3 style="margin-top:8px;">${escapeHtml(c.title)}</h3>
+              ${c.occasion ? `<div class="muted">${escapeHtml(c.occasion)}</div>` : ''}
+              <div class="meta">Срок подачи до ${fmtDate(c.deadline)}${c.quotaPerUnit ? ' · квота: ' + c.quotaPerUnit + ' от СЗ' : ''}</div>
+              ${c.criteria ? `<div class="criteria-box">${escapeHtml(c.criteria)}</div>` : ''}
+            </div>
+            <button class="btn btn-primary" onclick="AwardApp.openCampaignForm('${c.id}')">Подать кандидатов</button>
+          </div>`;
+        }).join('') + `</div>`;
+    return `<div class="card"><h2>Открытые наградные кампании</h2><p class="muted">Выберите кампанию, чтобы подать кандидатов от вашего структурного звена</p>${body}</div>`;
+  }
+
+  function openCampaignFormById(id){
+    const campaign = state.campaigns.find(function(c){ return c.id === id; });
+    if (campaign) openCampaignForm(campaign);
+  }
+
+  // ---------------- render: submit form ----------------
+  function renderProfileCard(){
+    if (state.profile) {
+      return `
+      <div class="card">
+        <h3>Данные руководителя</h3>
+        <p class="muted" style="margin:0;">${escapeHtml(state.profile.name)}${state.profile.position ? ', ' + escapeHtml(state.profile.position) : ''} · СЗ: ${escapeHtml(state.profile.unit)}${state.profile.region ? ' · ' + escapeHtml(state.profile.region) : ''}</p>
+        <button class="btn btn-secondary btn-sm" style="margin-top:10px;" onclick="AwardApp.editProfile()">Изменить данные</button>
+      </div>`;
+    }
+    return `
+    <div class="card">
+      <h3>Кто подаёт кандидатов?</h3>
+      <p class="muted">Эти данные нужны, чтобы комиссия и организатор могли уточнить детали по кандидатам</p>
+      <div class="grid-2">
+        <div class="field"><label>ФИО руководителя *</label><input id="p-name" placeholder="Иванов Иван Иванович"></div>
+        <div class="field"><label>Должность</label><input id="p-position" placeholder="Директор филиала"></div>
+        <div class="field"><label>Структурное звено (СЗ) *</label><input id="p-unit" placeholder="Филиал по Алматинской области"></div>
+        <div class="field"><label>Регион</label><input id="p-region" placeholder="Алматинская область"></div>
+        <div class="field"><label>Телефон / email</label><input id="p-phone" placeholder="+7 700 000 00 00"></div>
+      </div>
+      <button class="btn btn-primary" onclick="AwardApp.saveProfileFromForm()">Сохранить и продолжить</button>
+    </div>`;
+  }
+
+  function renderQuotaSummary(campaign){
+    if (!campaign.quotaPerUnit || !state.quotaInfo) return '';
+    const q = state.quotaInfo;
+    return `
+    <div class="quota-pill" style="max-width:260px;">
+      Квота вашего СЗ: <b>${q.used} из ${q.quota}</b> уже подано${q.remaining != null ? ', осталось ' + q.remaining : ''}
+    </div>`;
+  }
+
+  function renderSubmitForm(){
+    const campaign = state.campaigns.find(function(c){ return c.id === state.activeCampaignId; });
+    if (!campaign) return `<div class="card">Кампания не найдена. <button class="btn btn-secondary" onclick="AwardApp.backToList()">Назад к списку</button></div>`;
+
+    let out = `
+    <button class="btn btn-secondary btn-sm" onclick="AwardApp.backToList()">← Назад к списку кампаний</button>
+    <div class="card" style="margin-top:14px;">
+      <span class="badge badge-open">Открыта</span>
+      <h2 style="margin-top:8px;">${escapeHtml(campaign.title)}</h2>
+      ${campaign.occasion ? `<p class="muted">${escapeHtml(campaign.occasion)}</p>` : ''}
+      <div class="muted">Срок подачи до ${fmtDate(campaign.deadline)}</div>
+      ${campaign.criteria ? `<div class="criteria-box"><b>Условия отбора кандидатов:</b><br>${escapeHtml(campaign.criteria)}</div>` : ''}
+    </div>`;
+
+    out += renderProfileCard();
+
+    if (state.profile) {
+      out += renderQuotaSummary(campaign);
+
+      if (state.lastSubmitted) {
+        out += `
+        <div class="card" style="border-color:var(--c-success);background:var(--c-success-bg);">
+          <h3 style="color:var(--c-success);">Кандидаты поданы ✓</h3>
+          <p class="muted">Подано: ${state.lastSubmitted.map(function(c){ return escapeHtml(c.fullName); }).join(', ')}</p>
+          <p class="muted">Вы можете подать ещё кандидатов от своего СЗ ниже, если позволяет квота.</p>
+        </div>`;
+      }
+
+      const quotaReached = campaign.quotaPerUnit > 0 && state.quotaInfo && state.quotaInfo.remaining === 0;
+
+      out += `<div class="card"><h3>Кандидаты</h3>`;
+      if (quotaReached) {
+        out += `<div class="empty-state">Квота вашего СЗ для этой кампании исчерпана.</div></div>`;
+      } else {
+        out += state.candidatesDraft.map(function(c, idx){
+          return `
+          <div class="candidate-block">
+            ${state.candidatesDraft.length > 1 ? `<button class="btn btn-danger btn-sm remove-candidate" onclick="AwardApp.removeCandidateRow(${idx})">Удалить</button>` : ''}
+            <h4>Кандидат ${idx + 1}</h4>
+            <div class="grid-2">
+              <div class="field"><label>ФИО кандидата *</label><input data-cand-idx="${idx}" data-field="fullName" value="${escapeHtml(c.fullName)}"></div>
+              <div class="field"><label>Должность *</label><input data-cand-idx="${idx}" data-field="position" value="${escapeHtml(c.position)}"></div>
+              <div class="field"><label>Регион *</label><input data-cand-idx="${idx}" data-field="region" value="${escapeHtml(c.region)}"></div>
+              <div class="field"><label>Стаж работы</label><input data-cand-idx="${idx}" data-field="tenure" placeholder="например, 7 лет" value="${escapeHtml(c.tenure)}"></div>
+              <div class="field">
+                <label>Была ли ранее награда? *</label>
+                <select data-cand-idx="${idx}" data-field="hadPreviousAward" onchange="AwardApp.updateDraftField(${idx}, 'hadPreviousAward', this.value)">
+                  <option value="no" ${c.hadPreviousAward !== 'yes' ? 'selected' : ''}>Нет</option>
+                  <option value="yes" ${c.hadPreviousAward === 'yes' ? 'selected' : ''}>Да</option>
+                </select>
+              </div>
+              ${c.hadPreviousAward === 'yes' ? `<div class="field"><label>Название предыдущей награды *</label><input data-cand-idx="${idx}" data-field="previousAwardTitle" value="${escapeHtml(c.previousAwardTitle)}"></div>` : ''}
+            </div>
+            <div class="field"><label>Обоснование / достижения *</label><textarea data-cand-idx="${idx}" data-field="justification">${escapeHtml(c.justification)}</textarea></div>
+          </div>`;
+        }).join('');
+
+        out += `<button class="btn btn-secondary btn-sm" onclick="AwardApp.addCandidateRow()">+ Добавить ещё кандидата</button>`;
+        if (state.submitError) out += `<div class="error-text" style="margin-top:12px;">${escapeHtml(state.submitError)}</div>`;
+        out += `<div style="margin-top:16px;"><button class="btn btn-primary" ${state.submitting ? 'disabled' : ''} onclick="AwardApp.submitCandidates()">${state.submitting ? 'Отправка…' : 'Подать кандидатов'}</button></div>`;
+        out += `</div>`;
+      }
+    }
+
+    return out;
+  }
+
+  // ---------------- render: admin ----------------
+  function renderAdmin(){
+    if (!state.adminAuthed) {
+      return `
+      <div class="login-box card">
+        <h2>Вход администратора</h2>
+        <p class="muted">Доступ к управлению кампаниями и сводному списку кандидатов</p>
+        <div class="field"><label>Пароль</label><input id="admin-pwd" type="password" onkeydown="if(event.key==='Enter')AwardApp.adminLogin()"></div>
+        ${state.adminLoginError ? `<div class="error-text">${escapeHtml(state.adminLoginError)}</div>` : ''}
+        <button class="btn btn-primary" style="width:100%;margin-top:8px;" onclick="AwardApp.adminLogin()">Войти</button>
+      </div>`;
+    }
+
+    let out = `
+    <div class="tabs">
+      <button class="tab-btn ${state.adminView === 'campaigns' ? 'active' : ''}" onclick="AwardApp.setAdminView('campaigns')">Кампании</button>
+      <button class="tab-btn ${state.adminView === 'candidates' ? 'active' : ''}" onclick="AwardApp.setAdminView('candidates')">Кандидаты</button>
+      <button class="tab-btn" style="margin-left:auto;" onclick="AwardApp.adminLogout()">Выйти</button>
+    </div>`;
+
+    if (state.adminView === 'campaigns') {
+      out += renderAdminCampaigns();
+    } else {
+      out += renderAdminCandidates();
+    }
+
+    if (state.showCampaignModal) out += renderCampaignModal();
+    return out;
+  }
+
+  function renderAdminCampaigns(){
+    let out = `<div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+        <h2 style="margin:0;">Наградные кампании</h2>
+        <button class="btn btn-primary" onclick="AwardApp.openCreateCampaign()">+ Новая кампания</button>
+      </div>
+    </div>`;
+
+    if (state.adminCampaigns.length === 0) {
+      out += `<div class="card"><div class="empty-state">Кампаний пока нет. Создайте первую.</div></div>`;
+      return out;
+    }
+
+    out += `<div class="campaign-list">` + state.adminCampaigns.map(function(c){
+      return `
+      <div class="campaign-item">
+        <div>
+          <span class="badge ${c.status === 'open' ? 'badge-open' : 'badge-closed'}">${c.status === 'open' ? 'Открыта' : 'Закрыта'}</span>
+          <h3 style="margin-top:8px;">${escapeHtml(c.title)}</h3>
+          ${c.occasion ? `<div class="muted">${escapeHtml(c.occasion)}</div>` : ''}
+          <div class="meta">Срок до ${fmtDate(c.deadline)}${c.quotaPerUnit ? ' · квота: ' + c.quotaPerUnit + ' от СЗ' : ' · без квоты'}</div>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn btn-secondary btn-sm" onclick="AwardApp.openAdminCandidates('${c.id}')">Кандидаты</button>
+          <button class="btn btn-secondary btn-sm" onclick="AwardApp.openEditCampaignById('${c.id}')">Изменить</button>
+          <button class="btn btn-sm ${c.status === 'open' ? 'btn-danger' : 'btn-secondary'}" onclick="AwardApp.toggleCampaignStatus('${c.id}')">${c.status === 'open' ? 'Закрыть' : 'Открыть снова'}</button>
+        </div>
+      </div>`;
+    }).join('') + `</div>`;
+    return out;
+  }
+
+  function openEditCampaignById(id){
+    const c = state.adminCampaigns.find(function(x){ return x.id === id; });
+    if (c) openEditCampaign(c);
+  }
+  function toggleCampaignStatusById(id){
+    const c = state.adminCampaigns.find(function(x){ return x.id === id; });
+    if (c) toggleCampaignStatus(c);
+  }
+
+  function renderAdminCandidates(){
+    if (!state.adminSelectedCampaignId) {
+      if (state.adminCampaigns.length === 0) {
+        return `<div class="card"><div class="empty-state">Сначала создайте кампанию во вкладке «Кампании».</div></div>`;
+      }
+      return `<div class="card">
+        <h3>Выберите кампанию</h3>
+        <div class="campaign-list">` + state.adminCampaigns.map(function(c){
+          return `<div class="campaign-item">
+            <div><h3 style="margin:0;">${escapeHtml(c.title)}</h3><div class="meta">${c.status === 'open' ? 'Открыта' : 'Закрыта'}</div></div>
+            <button class="btn btn-primary btn-sm" onclick="AwardApp.openAdminCandidates('${c.id}')">Открыть</button>
+          </div>`;
+        }).join('') + `</div>
+      </div>`;
+    }
+
+    const campaign = state.adminCampaigns.find(function(c){ return c.id === state.adminSelectedCampaignId; });
+    const filter = state.adminCandidateFilter.trim().toLowerCase();
+    const filtered = state.adminCandidates.filter(function(c){
+      if (!filter) return true;
+      return (c.unit + ' ' + c.region + ' ' + c.fullName).toLowerCase().indexOf(filter) !== -1;
+    });
+
+    const byUnit = {};
+    state.adminCandidates.forEach(function(c){
+      byUnit[c.unit] = (byUnit[c.unit] || 0) + 1;
+    });
+    const quotaSummary = campaign && campaign.quotaPerUnit
+      ? `<div class="quota-summary">` + Object.keys(byUnit).sort().map(function(u){
+          const used = byUnit[u];
+          const over = used > campaign.quotaPerUnit;
+          return `<div class="quota-pill" style="${over ? 'border-color:var(--c-danger);' : ''}">${escapeHtml(u)}<b>${used} / ${campaign.quotaPerUnit}</b></div>`;
+        }).join('') + `</div>`
+      : '';
+
+    let out = `<div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;">
+        <div>
+          <h2 style="margin:0;">${campaign ? escapeHtml(campaign.title) : ''}</h2>
+          <p class="muted" style="margin:4px 0 0;">Всего подано кандидатов: ${state.adminCandidates.length}</p>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-secondary btn-sm" onclick="AwardApp.backToAdminCampaignPicker()">Сменить кампанию</button>
+          <button class="btn btn-primary btn-sm" onclick="AwardApp.exportCampaign('${state.adminSelectedCampaignId}')">Выгрузить в Excel (CSV)</button>
+        </div>
+      </div>
+      ${quotaSummary}
+    </div>`;
+
+    out += `<div class="card">
+      <div class="field" style="max-width:320px;"><input placeholder="Поиск по ФИО, СЗ, региону" value="${escapeHtml(state.adminCandidateFilter)}" oninput="AwardApp.setCandidateFilter(this.value)"></div>`;
+
+    if (filtered.length === 0) {
+      out += `<div class="empty-state">Кандидаты не найдены.</div>`;
+    } else {
+      out += `<div class="table-wrap"><table><thead><tr>
+        <th>ФИО</th><th>Должность</th><th>Регион</th><th>СЗ</th><th>Стаж</th><th>Ранее награждался</th><th>Обоснование</th><th>Подал(а)</th><th>Дата</th>
+      </tr></thead><tbody>` + filtered.map(function(c){
+        return `<tr>
+          <td>${escapeHtml(c.fullName)}</td>
+          <td>${escapeHtml(c.position)}</td>
+          <td>${escapeHtml(c.region)}</td>
+          <td>${escapeHtml(c.unit)}</td>
+          <td>${escapeHtml(c.tenure)}</td>
+          <td>${c.hadPreviousAward === 'yes' ? 'Да: ' + escapeHtml(c.previousAwardTitle) : 'Нет'}</td>
+          <td style="max-width:280px;">${escapeHtml(c.justification)}</td>
+          <td>${escapeHtml(c.submittedBy.name)}</td>
+          <td>${fmtDate(c.createdAt)}</td>
+        </tr>`;
+      }).join('') + `</tbody></table></div>`;
+    }
+    out += `</div>`;
+    return out;
+  }
+
+  function setCandidateFilter(v){
+    state.adminCandidateFilter = v;
+    render();
+    // restore focus/caret after re-render
+    const el = document.querySelector('.card input[placeholder^="Поиск"]');
+    if (el) { el.focus(); el.setSelectionRange(el.value.length, el.value.length); }
+  }
+  function backToAdminCampaignPicker(){
+    state.adminSelectedCampaignId = null;
+    state.adminCandidates = [];
+    render();
+  }
+  function setAdminView(v){
+    state.adminView = v;
+    if (v === 'candidates' && state.adminCampaigns.length === 0) {
+      loadCampaigns().then(function(){ state.adminCampaigns = state.campaigns; render(); });
+    }
+    render();
+  }
+
+  function renderCampaignModal(){
+    const f = state.campaignForm;
+    return `
+    <div class="modal-overlay" onclick="if(event.target===this)AwardApp.closeCampaignModal()">
+      <div class="modal">
+        <div class="modal-header">
+          <h3 style="margin:0;">${state.campaignModalMode === 'create' ? 'Новая наградная кампания' : 'Редактирование кампании'}</h3>
+          <button class="modal-close" onclick="AwardApp.closeCampaignModal()">✕</button>
+        </div>
+        <div class="field"><label>Название награды *</label><input id="cf-title" value="${escapeHtml(f.title)}" placeholder="Например: Почётная грамота ко Дню связи"></div>
+        <div class="field"><label>Повод / праздник</label><input id="cf-occasion" value="${escapeHtml(f.occasion)}" placeholder="День работников связи и информации"></div>
+        <div class="grid-2">
+          <div class="field"><label>Квота на одно СЗ</label><input id="cf-quota" type="number" min="0" value="${escapeHtml(f.quotaPerUnit)}" placeholder="0 = без ограничений"></div>
+          <div class="field"><label>Срок подачи *</label><input id="cf-deadline" type="date" value="${escapeHtml(f.deadline)}"></div>
+        </div>
+        <div class="field"><label>Условия отбора кандидатов</label><textarea id="cf-criteria" placeholder="Опишите требования: стаж, категория сотрудников и т.д.">${escapeHtml(f.criteria)}</textarea></div>
+        ${state.campaignFormError ? `<div class="error-text">${escapeHtml(state.campaignFormError)}</div>` : ''}
+        <button class="btn btn-primary" style="width:100%;margin-top:6px;" onclick="AwardApp.saveCampaignForm()">${state.campaignModalMode === 'create' ? 'Создать кампанию' : 'Сохранить изменения'}</button>
+      </div>
+    </div>`;
+  }
+
+  // ---------------- main render ----------------
+  function render(){
+    let body = '';
+    if (state.view === 'home') body = renderHome();
+    else if (state.view === 'submit-list') body = renderSubmitList();
+    else if (state.view === 'submit-form') body = renderSubmitForm();
+    else if (state.view === 'admin') body = renderAdmin();
+
+    document.getElementById('app').innerHTML = renderHeader() + `<main>${body}</main>` + renderFooter() + renderToast();
+  }
+
+  window.AwardApp = {
+    goHome, goSubmitList, goAdmin,
+    openCampaignForm: openCampaignFormById,
+    backToList, saveProfileFromForm, editProfile,
+    updateDraftField, addCandidateRow, removeCandidateRow, submitCandidates,
+    adminLogin, adminLogout, setAdminView,
+    openCreateCampaign, openEditCampaignById, closeCampaignModal, saveCampaignForm,
+    toggleCampaignStatus: toggleCampaignStatusById,
+    openAdminCandidates, backToAdminCampaignPicker, setCandidateFilter,
+    exportCampaign
+  };
+
+  render();
+})();
+</script>
+</body>
+</html>
